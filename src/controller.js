@@ -62,11 +62,25 @@ const getdataSetsById = (req, res) => {
 
 
     }
+    const deleteDataSets=(req,res) =>{
+        const id = req.params.id;
+
+        pool.query("DELETE FROM dataSets WHERE id=$1",[id],(error,result) =>{
+            const noResultFound = !result.rows.length;
+            if(noResultFound){
+                res.status(400).json({ "status":"failure",
+                    "message": "data does not exists" })
+            }
+        })
+
+
+    }
 
 
 module.exports = {
     getdataSets,
     getdataSetsById,
     addDataSets,
+    deleteDataSets,
 
 }
