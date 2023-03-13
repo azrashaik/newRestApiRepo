@@ -15,7 +15,7 @@ const getdataSets = (req, res) => {
 const getdataSetsById = (req, res) => {
     const id = req.params.id;
     pool.query("select * from dataSets where id = $1", [id], (error, result) => {
-        if (error) { res.status(400).send(error) }
+        if (error) { res.status(400).send({"status":"failure","message":"id does not exists"}) }
         else { res.status(200).json(result.rows) }
     })
 }
@@ -65,13 +65,30 @@ const getdataSetsById = (req, res) => {
     const deleteDataSets=(req,res) =>{
         const id = req.params.id;
 
-        pool.query("DELETE FROM dataSets WHERE id=$1",[id],(error,result) =>{
+        pool.query("select * from dataSets where id = $1",[id],(error,result) =>{
+            
             const noResultFound = !result.rows.length;
+
+
             if(noResultFound){
                 res.status(400).json({ "status":"failure",
                     "message": "data does not exists" })
             }
+            else{
+                pool.query("DELETE FROM dataSets WHERE id=$1",[id],(error,result) =>{
+                    if (error) { res.status(400).send(error) }
+                    else{
+                        res.status(200),json({"status":"successfully deleted",
+                    "message": "data deleted feom datasets"})
+                    }
+                })
+            }
         })
+
+
+        
+
+
 
 
     }
