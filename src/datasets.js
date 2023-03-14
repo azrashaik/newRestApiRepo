@@ -1,9 +1,12 @@
-const Pool=require('pg').Pool;
-const pool=new Pool({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.pool = void 0;
+const Pool = require('pg').Pool;
+exports.pool = new Pool({
     user: 'postgres',
-            host: 'localhost',
-            database: 'postgres',
-            password: 'azra123',
-            port: 5432
+    host: 'localhost',
+    database: 'postgres',
+    password: 'azra123',
+    port: 5432
 });
-module.exports=pool;
+// export {pool}
